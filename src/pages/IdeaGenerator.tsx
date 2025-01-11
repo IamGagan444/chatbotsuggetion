@@ -25,7 +25,9 @@ const IdeaGenerator: React.FC<IdeaGeneratorProps> = ({ onIdeasSelected }) => {
         body: JSON.stringify({ query }),
       });
       const data = await response.json();
-      console.log("generated data",data)
+      console.log("generated data", data);
+
+      // Assuming the API returns an array of ideas with relevance, impact, and feasibility scores
       setIdeas(data?.data);
       setSelectedIdeas([]);
     } catch (error) {
@@ -61,7 +63,7 @@ const IdeaGenerator: React.FC<IdeaGeneratorProps> = ({ onIdeasSelected }) => {
             <div className="mb-4">
               <Input
                 type="text"
-                value={query} 
+                value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="What new app should I build?"
                 className="w-full"
@@ -70,12 +72,12 @@ const IdeaGenerator: React.FC<IdeaGeneratorProps> = ({ onIdeasSelected }) => {
             <div>
               {loading ? (
                 <motion.div
-                  className="my-4 flex justify-center items-center text-2xl font-bold "
+                  className="my-4 flex justify-center items-center text-2xl font-bold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  Wait For AI Result  <LoadingDots  />
+                  Wait For AI Result <LoadingDots />
                 </motion.div>
               ) : (
                 <Button
@@ -106,8 +108,11 @@ const IdeaGenerator: React.FC<IdeaGeneratorProps> = ({ onIdeasSelected }) => {
                     >
                       <Card className="mb-2">
                         <CardContent>
-                          <p>{idea.idea}</p>
-                          <p>Priority Score: {calculatePriority(idea)}</p>
+                          <p><strong>Idea:</strong> {idea.idea}</p>
+                          <p><strong>Relevance:</strong> {idea.relevance}</p>
+                          <p><strong>Impact:</strong> {idea.impact}</p>
+                          <p><strong>Feasibility:</strong> {idea.feasibility}</p>
+                          <p><strong>Priority Score:</strong> {calculatePriority(idea)}</p>
                           <Button
                             onClick={() => selectIdea(idea)}
                             disabled={
@@ -133,3 +138,4 @@ const IdeaGenerator: React.FC<IdeaGeneratorProps> = ({ onIdeasSelected }) => {
 };
 
 export default IdeaGenerator;
+
